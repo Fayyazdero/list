@@ -1,12 +1,21 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import Modal from './Modal';
+import {Signin} from './Forms/Signin';
+import { Signup } from './Forms/Signup';
+// import ModalOpen from './Modal';
 
 function App() {
+
   return (
-    <div>
-      <Modal></Modal>
-    </div>
+    <Switch>
+      <Route path="/sign-in">
+      <Signin/>
+    </Route>
+    <Route path="/sign-up">
+      <Signup/>
+    </Route>
+    </Switch>
   );
 }
 

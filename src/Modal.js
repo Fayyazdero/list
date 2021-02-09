@@ -1,16 +1,17 @@
-import React, {useState} from 'react'
+// import React, { useState } from 'react';
+// import { Modal, Button } from 'antd';
 
-const Modal = () => {
-    const [modal, setModal] = useState(false)
+// const ModalOpen = ({handleOk, isModalVisible, handleCancel, showModal }, props) =>{
+//   return (
+//     <div>
+//       <Button type="primary" onClick={showModal}>
+//         Open Modal
+//       </Button>
+//       <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+//         {props.children}
+//       </Modal>
+//     </div>
+//   );
+// }
 
-    const handleClick = () => {
-    }
-
-    return (
-        <div>
-            <button onClick={handleClick}>Show Form</button>
-        </div>
-    )
-}
-
-export default Modal
+// export default ModalOpen
