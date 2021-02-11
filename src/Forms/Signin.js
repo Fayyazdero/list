@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Button, Checkbox } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
@@ -5,12 +6,23 @@ import '../App.css'
 
 
 export const Signin = () => {
-  const [userInfo, setUserInfo] = useState({})
+  const [loginData, setLoginData] = useState({})
   const history = useHistory()
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('userData'))
-    setUserInfo(user)
+    setLoginData(user)
   }, [])
+
+  
+  const onFinish = (values) => {
+    localStorage.setItem("userInfo", JSON.stringify(values));
+      history.push("/")
+  }
+  
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
 
   const layout = {
     labelCol: {
@@ -27,18 +39,7 @@ export const Signin = () => {
     },
   };
 
-  const onFinish = (values) => {
-    if ((userInfo.Name === values.username) && (userInfo.password === values.password)) {
-      history.push('/')
-    }
-    else {
-      history.push('/sign-up')
-    }
-  }
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
+  
 
 
   return (
@@ -54,7 +55,7 @@ export const Signin = () => {
       >
         <Form.Item
           label="Username"
-          name="username"
+          name="Email"
           rules={[
             {
               required: true,

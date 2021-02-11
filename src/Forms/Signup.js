@@ -1,3 +1,4 @@
+
 import React, {useState,useEffect} from 'react'
 import { Form, Input, Button, } from 'antd';
 import { useHistory } from 'react-router-dom';
@@ -14,6 +15,28 @@ export const Signup = (props) => {
         )
   },[])
   const history = useHistory()
+
+  const onFinish = (values) => {
+    if (values.password !== values.confirm_password) {
+      alert("Not Matched password")
+    }
+    let dataa = data.find((item)=>{
+      return ( item.Name ===  values.Name && item.Email === values.Email)
+    }) 
+    if(dataa){
+      alert("Name Already Taken")
+    }else{
+      let arr = [...data, values]
+      setData(arr)
+      localStorage.setItem("userData", JSON.stringify(arr));
+      history.push("/sign-in")
+    }
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const layout = {
     labelCol: {
       span: 8,
@@ -27,28 +50,6 @@ export const Signup = (props) => {
       offset: 11,
       span: 16,
     },
-  };
-
-
-  const onFinish = (values) => {
-    if (values.password !== values.confirm_password) {
-      alert("Not Matched password")
-    }
-    let dataa = data.find((e)=>{
-      return ( e.Name ==  values.Name && e.Email == values.Email)
-    }) 
-    if(dataa){
-      alert("name taken")
-    }else{
-      console.log(values, "t6est")
-      let arr = [...data, values]
-      setData(arr)
-      localStorage.setItem("userData", JSON.stringify(arr));
-      history.push("/")
-    }
-  }
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
 
   return (
