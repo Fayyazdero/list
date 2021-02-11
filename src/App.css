@@ -1,3 +1,14 @@
 .form-head {
     text-align: center;
 }
+
+.home-page {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.home-page .sign-up {
+    float: right;
+}

@@ -3,13 +3,17 @@ import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import {Signin} from './Forms/Signin';
 import { Signup } from './Forms/Signup';
+import Home from './Home';
 // import ModalOpen from './Modal';
 
 function App() {
 
   return (
     <Switch>
-      <Route path="/sign-in">
+    <Route exact path="/">
+      <Home/>
+    </Route>
+    <Route path="/sign-in">
       <Signin/>
     </Route>
     <Route path="/sign-up">
