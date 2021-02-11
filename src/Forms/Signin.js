@@ -5,6 +5,23 @@ import '../App.css'
 
 
 export const Signin = () => {
+  const [loginData, setLoginData] = useState({})
+  const history = useHistory()
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('userData'))
+    setLoginData(user)
+  }, [])
+
+  
+  const onFinish = (values) => {
+    localStorage.setItem("userInfo", JSON.stringify(values));
+      history.push("/")
+  }
+  
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
 
   const layout = {
     labelCol: {

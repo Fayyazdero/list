@@ -6,7 +6,36 @@ import '../App.css'
 
 export const Signup = (props) => {
 
-  
+  const [data, setData] = useState([])
+
+  useEffect(()=>{
+      setData(
+        JSON.parse(localStorage.userData || `[]`)
+        )
+  },[])
+  const history = useHistory()
+
+  const onFinish = (values) => {
+    if (values.password !== values.confirm_password) {
+      alert("Not Matched password")
+    }
+    let dataa = data.find((item)=>{
+      return ( item.Name ===  values.Name && item.Email === values.Email)
+    }) 
+    if(dataa){
+      alert("Name Already Taken")
+    }else{
+      let arr = [...data, values]
+      setData(arr)
+      localStorage.setItem("userData", JSON.stringify(arr));
+      history.push("/sign-in")
+    }
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   const layout = {
     labelCol: {
       span: 8,
