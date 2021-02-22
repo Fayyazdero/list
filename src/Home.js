@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Post } from './Forms/Post'
 import { Layout, Menu, Breadcrumb } from "antd";
   import {
@@ -27,8 +27,15 @@ export const Home = () => {
   );
 };
 
-export const Dashboard = () => {
+export const Dashboard = ({user}) => {
   
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.email) {
+      history.push("/sign-in");
+      // props.history.push("/sign-in");
+    }
+  }, []);
 
   const { SubMenu } = Menu;
   const { Header, Content, Sider } = Layout;

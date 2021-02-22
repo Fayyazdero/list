@@ -1,9 +1,20 @@
-import React from "react";
-import {Link} from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap';
-import './navbar.css'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
+import "./navbar.css";
 
-export const NavbarD = ({name}) => {
+export const NavbarD = ({ user }) => {
+  const [loginData, setLoginData] = useState({});
+
+  useEffect(() => {
+    setLoginData(() => user);
+  }, [user]);
+
+  function signOut() {
+    localStorage.setItem("userInfo", JSON.stringify({}));
+    setLoginData({});
+  }
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -12,14 +23,17 @@ export const NavbarD = ({name}) => {
           <Nav className="mr-auto items">
             <Link to="/">Home</Link>
             <Link href="/k">Link</Link>
-            <div className="text-right">
-            <Link to="/sign-in">
-                Sign In
-            </Link>
-            <Link to="/sign-up" className="text-right">
-                Sign Out
-            </Link>
-            </div>
+              {!loginData.email && <Link to="/sign-in" className="text-right">Sign In</Link>}
+              {loginData.email && (
+                <Link
+                  to="/sign-up"
+                  className="text-right"
+                  onClick={() => signOut()}
+                >
+                  Sign Out
+                </Link>
+              )}
+               {loginData.email && <span className="avatar">{[...loginData.email][0]}</span>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

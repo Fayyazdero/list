@@ -1,33 +1,45 @@
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Checkbox, Alert } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import "../App.css";
 
-import React, { useState, useEffect } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
-import '../App.css'
+export const Signin = ({ setUser }) => {
+  const [loginData, setLoginData] = useState({});
+  const [val, setVal] = useState({});
 
-
-export const Signin = () => {
-  const [loginData, setLoginData] = useState({})
-  const history = useHistory()
+  const history = useHistory();
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userData'))
-    setLoginData(user)
-  }, [])
-
-  let signupData = JSON.parse(localStorage.getItem('userData'));
-
-  const onFinish = (values) => {
-    if(values.email === signupData.email && values.password === signupData.password ) {
-    localStorage.setItem("userInfo", JSON.stringify(values));
-      history.push("/")
-    } else {
-      alert("Not Found")
+    let loginData = JSON.parse(localStorage.getItem("userInfo"));
+    if (findUser(loginData)) {
+      history.push("/");
+      setUser(loginData);
     }
+    setLoginData(loginData);
+  }, []);
+
+  let signupData = JSON.parse(localStorage.getItem("userData"));
+
+  function findUser(user) {
+    return signupData.find(
+      (item) => item.Email === user.email && user.password === item.password
+    );
   }
-  
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+  const onFinish = (values) => {
+    if (findUser({ email: values.email, password: values.password })) {
+      localStorage.setItem("userInfo", JSON.stringify(values));
+      history.push("/");
+      setUser(values);
+    } else {
+      setVal({
+        type: "error",
+        message: "Not Found",
+      });
+    }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   const layout = {
     labelCol: {
@@ -43,9 +55,6 @@ export const Signin = () => {
       span: 16,
     },
   };
-
-  
-
 
   return (
     <>
@@ -65,7 +74,7 @@ export const Signin = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: "Please input your username!",
             },
           ]}
         >
@@ -78,7 +87,7 @@ export const Signin = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: "Please input your password!",
             },
           ]}
         >
@@ -88,16 +97,17 @@ export const Signin = () => {
         <Form.Item {...tailLayout} name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-        <p style={{ textAlign: 'center' }}>Not Registered ? <Link to="/sign-up"> sign-Up</Link></p>
+        <p style={{ textAlign: "center" }}>
+          Not Registered ? <Link to="/sign-up"> sign-Up</Link>
+        </p>
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
             Submit
-        </Button>
+          </Button>
         </Form.Item>
       </Form>
     </>
   );
 };
 
-
-export default Signin
+export default Signin;

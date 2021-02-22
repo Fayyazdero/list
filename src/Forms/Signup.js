@@ -1,40 +1,42 @@
-
-import React, {useState,useEffect} from 'react'
-import { Form, Input, Button, } from 'antd';
-import { useHistory } from 'react-router-dom';
-import '../App.css'
-
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, Alert } from "antd";
+import { useHistory } from "react-router-dom";
+import "../App.css";
 
 const Signup = (props) => {
+  const [data, setData] = useState([]);
+  const [val, setVal] = useState({});
 
-  const [data, setData] = useState([])
-
-  useEffect(()=>{
-      setData(
-        JSON.parse(localStorage.userData || `[]`)
-        )
-  },[])
-  const history = useHistory()
+  useEffect(() => {
+    setData(JSON.parse(localStorage.userData || `[]`));
+  }, []);
+  const history = useHistory();
 
   const onFinish = (values) => {
-    if (values.password !== values.confirm_password) {
-      alert("Not Matched password")
-    }
-    let dataa = data.find((item)=>{
-      return ( item.name == values.name && item.email == values.email)
-    }) 
-    if(dataa){
-      alert("Name Already Taken")
-    }else{
-      let arr = [...data, values]
-      setData(arr)
+    let dataa = data.find((item) => {
+      return item.name == values.name && item.email == values.email;
+    });
+    if (dataa) {
+      setVal({
+        type: "error",
+        message: "Email Already Takken",
+      });
+    } else if (values.password !== values.confirm_password) {
+      // alert("Not Matched password")
+      setVal({
+        type: "error",
+        message: "Not Matched password",
+      });
+    } else {
+      let arr = [...data, values];
+      setData(arr);
       localStorage.setItem("userData", JSON.stringify(arr));
-      history.push("/sign-in")
+      history.push("/sign-in");
     }
-  }
+  };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   const layout = {
@@ -64,13 +66,14 @@ const Signup = (props) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
+        {val.type && <Alert type={val.type} message={val.message} />}
         <Form.Item
           label="Name"
           name="name"
           rules={[
             {
               required: true,
-              message: 'Please input your Name!',
+              message: "Please input your Name!",
             },
           ]}
         >
@@ -83,7 +86,7 @@ const Signup = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please input your Email!',
+              message: "Please input your Email!",
             },
           ]}
         >
@@ -96,7 +99,7 @@ const Signup = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: "Please input your password!",
             },
           ]}
         >
@@ -109,7 +112,7 @@ const Signup = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please Confirm your password!',
+              message: "Please Confirm your password!",
             },
           ]}
         >
@@ -119,7 +122,7 @@ const Signup = (props) => {
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
             Sign Up
-        </Button>
+          </Button>
         </Form.Item>
       </Form>
     </>
