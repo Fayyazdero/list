@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import '../App.css'
 
 
-export const Signup = (props) => {
+const Signup = (props) => {
 
   const [data, setData] = useState([])
 
@@ -21,7 +21,7 @@ export const Signup = (props) => {
       alert("Not Matched password")
     }
     let dataa = data.find((item)=>{
-      return ( item.Name ===  values.Name && item.Email === values.Email)
+      return ( item.name == values.name && item.email == values.email)
     }) 
     if(dataa){
       alert("Name Already Taken")
@@ -66,7 +66,7 @@ export const Signup = (props) => {
       >
         <Form.Item
           label="Name"
-          name="Name"
+          name="name"
           rules={[
             {
               required: true,
@@ -79,7 +79,7 @@ export const Signup = (props) => {
 
         <Form.Item
           label="Email"
-          name="Email"
+          name="email"
           rules={[
             {
               required: true,
@@ -125,3 +125,5 @@ export const Signup = (props) => {
     </>
   );
 };
+
+export default Signup;

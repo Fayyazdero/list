@@ -13,10 +13,15 @@ export const Signin = () => {
     setLoginData(user)
   }, [])
 
-  
+  let signupData = JSON.parse(localStorage.getItem('userData'));
+
   const onFinish = (values) => {
+    if(values.email === signupData.email && values.password === signupData.password ) {
     localStorage.setItem("userInfo", JSON.stringify(values));
       history.push("/")
+    } else {
+      alert("Not Found")
+    }
   }
   
   const onFinishFailed = (errorInfo) => {
@@ -44,6 +49,7 @@ export const Signin = () => {
 
   return (
     <>
+      <h2 className="text-center">Sign In</h2>
       <Form
         {...layout}
         name="basic"
@@ -55,7 +61,7 @@ export const Signin = () => {
       >
         <Form.Item
           label="Username"
-          name="Email"
+          name="email"
           rules={[
             {
               required: true,
@@ -92,3 +98,6 @@ export const Signin = () => {
     </>
   );
 };
+
+
+export default Signin
